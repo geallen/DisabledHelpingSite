@@ -1,0 +1,68 @@
+﻿@using DisabledApplicationV1.Models
+@{
+    ViewBag.Title = "HomePageForDisabled";
+    Layout = "~/Views/Shared/LayoutPage.cshtml";
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - My ASP.NET Application</title>
+    @*<link href="~/Template/css/disabledPage.css" rel="stylesheet" />*@
+
+</head>
+<body>
+
+    <div class="row" id="commentsForDisabledPost">
+    </div>
+    <div class="row">
+    <div class="col-md-10 col-md-offset-1">
+        <div class="box-footer" style="border-top-left-radius: 0; border-top-right-radius: 0; border-bottom-right-radius: 3px; border-bottom-left-radius: 3px; border-top: 1px solid #f4f4f4; padding: 10px; background-color: #fff;">
+            <form action="#" method="post">
+                @*<img class="img-responsive img-circle img-sm" src="~/Template/images/animation-bg.jpg" alt="Alt Text" style="width: 30px !important; height: 30px !important; float: left;">*@
+                <!-- .img-push is used to add margin to elements next to floating images -->
+                @*<div class="img-push">*@
+                    <div class="input-group">
+                        <input type="text" class="form-control input-sm" id="commentInputDisabled" placeholder="Write your comment here ...">
+                        <span class="input-group-btn">
+                            <button class="btn btn-default" id="addCommentButton" onclick="addComment()">Add Comment </button>
+                        </span>
+                    </div>
+
+            </form>
+        </div>
+        </div>
+        </div>
+        @{
+            //Member member = (Member)Session["Member"];
+            Member member = new Member();
+            var userType = member.usertype;
+            <input type="hidden" id="userType" value=@userType />
+        }
+</body>
+</html>
+<script src="~/Scripts/HomePageForDisabled.js"></script>
+<script>
+
+    function addComment() {
+        var comment = $("#commentInputDisabled").val();
+        var postId = $("#postIdDisabled").val();
+        $.ajax({
+            type: "POST",
+            url: "/Home/InsertComment",
+            data: {
+                postId: postId,
+                comment: comment
+            },
+            dataType: "JSON"
+        })
+        .done(function () {
+            $("#commentInput").val('');
+            $("#commentInput").attr("placeholder", "Enter new comment ...");
+        })
+        .fail({})
+        //alert($("#commentInput").val() + postId);
+    }
+</script>

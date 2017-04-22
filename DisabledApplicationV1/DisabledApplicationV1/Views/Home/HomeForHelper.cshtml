@@ -1,0 +1,225 @@
+﻿@using DisabledApplicationV1.Models
+@{
+    ViewBag.Title = "HomeForHelper";
+    Layout = "~/Views/Shared/LayoutPage.cshtml";
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+<body>
+    @*<div class="container">
+        <div id="idMyModal"></div>
+            </div>*@
+
+    <div class="row" id="roww1">
+        @*<div class="col-md-10 col-md-offset-1" id="roww2">
+                <div class="box box-widget">
+                    <div class="box-header with-border">
+                        <div class="user-block">
+                            <span class="username"><a href="#">jonathan burke jr.</a></span>
+                            <span class="description">shared publicly - 7:30 pm today</span>
+                        </div>
+
+                    </div>
+                    <div class="box-body">
+                        <p>
+                            Far far away, behind the word mountains, far from the
+                            countries Vokalia and Consonantia, there live the blind
+                            texts. Separated they live in Bookmarksgrove right at
+                        </p>
+
+
+                        <button type="button" class="btn btn-default btn-xs"><i class="fa fa-share"></i> Share</button>
+                        <button type="button" class="btn btn-default btn-xs"><i class="fa fa-thumbs-o-up"></i> Like</button>
+                        <span class="pull-right text-muted">45 likes - 2 comments</span>
+                    </div>
+                    <div class="box-footer box-comments">
+                        <div class="box-comment">
+                            <div class="comment-text">
+                                <span class="username">
+                                    Maria Gonzales
+                                    <span class="text-muted pull-right">8:03 PM Today</span>
+                                </span>
+                                It is a long established fact that a reader will be distracted
+                                by the readable content of a page when looking at its layout.
+                            </div>
+                        </div>
+                        <div class="box-comment">
+                            <div class="comment-text">
+                                <span class="username">
+                                    Nora Havisham
+                                    <span class="text-muted pull-right">8:03 PM Today</span>
+                                </span>
+                                The point of using Lorem Ipsum is that it has a more-or-less
+                                normal distribution of letters, as opposed to using
+                                'Content here, content here', making it look like readable English.
+                            </div>
+                        </div>
+                    </div>
+                    <div class="box-footer">
+                        <form action="#" method="post">
+                            <img class="img-responsive img-circle img-sm" src="~/Template/dist/img/user4-128x128.jpg" alt="Alt Text">
+                            <div class="img-push">
+                                <input type="text" class="form-control input-sm" placeholder="Press enter to post comment">
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>*@
+    </div>
+    @{
+        //Member member = (Member)Session["Member"];
+        Member member = new Member();
+        var userType = member.usertype;
+        <input type="hidden" id="userType" value=@userType />
+    }
+</body>
+</html>
+<script>
+
+    function myf(postId) {
+        $.ajax({
+            type: "POST",
+            url: "/Home/GetComments",
+            data: {
+                postId: postId
+            },
+            dataType: "JSON"
+        })
+        .done(function (result) {
+            result = result.MessageList;
+            var comment;
+            function showComments() {
+               var comments = "";
+               if (result == null) {
+                   // sadece form u goster.
+                   var $enterComment = '<div class="box-footer" style="border-top-left-radius: 0;  border-top-right-radius: 0; border-bottom-right-radius: 3px; border-bottom-left-radius: 3px; border-top: 1px solid #f4f4f4; padding: 10px; background-color: #fff;">' +
+                     '<form action="#" method="post"><input type="text" class="form-control input-sm" id="commentInput" placeholder="Press enter to post comment" style="    height: 30px; padding: 5px 10px; font-size: 12px; line-height: 1.5;     border-radius: 0; box-shadow: none; border-color: #d2d6de;"></form></div>'
+                   ;
+                   comments += "No comments yet.";
+                   comments += $enterComment;
+                   // formu buraya yaz
+                   return $('<div></div>').append(comments);
+               }
+               else {
+                   var commentNumber ="  "+  result.length + " comments";
+                   comments += commentNumber;
+                   for (var i = 0; i < result.length; i++) {
+                       var $comment = '<div class="box-comment" style="padding: 8px 15px 8px 15px; border-bottom: 1px solid #eee; background-color: #f7f7f7">' +
+                           '<div class="comment-text" syle="color: #555">' +
+                           '<span class="username" style="color: #444; display: block; font-weight: 600">' +
+                           result[i][2] +
+                           '<span class="text-muted pull-right" style="font-weight: 400; font-size: 12px; color:#777;">' +
+                           result[i][0] +
+                           '</span></span>' +
+                           result[i][1] +
+                           '</div></div>';
+                       comments += $comment;
+                   }
+                   var $enterComment = '<div class="box-footer" style="border-top-left-radius: 0;  border-top-right-radius: 0; border-bottom-right-radius: 3px; border-bottom-left-radius: 3px; border-top: 1px solid #f4f4f4; padding: 10px; background-color: #fff;">'+
+                       '<form action="#" method="post"><input type="text" class="form-control input-sm" id="commentInput" placeholder="Write your comment here ..." style="    height: 30px; padding: 5px 10px; font-size: 12px; line-height: 1.5;     border-radius: 0; box-shadow: none; border-color: #d2d6de;"></form></div>'
+                      ;
+
+                   comments += $enterComment;
+                   // formu buraya yaz
+                   return $('<div></div>').append(comments);
+
+               }
+            }
+            function addComment() {
+                var comment = $("#commentInput").val();
+                $.ajax({
+                    type: "POST",
+                    url: "/Home/InsertComment",
+                    data: {
+                        postId: postId,
+                        comment: comment
+                    },
+                    dataType: "JSON"
+                })
+                .done(function(){
+                    $("#commentInput").val('');
+                    $("#commentInput").attr("placeholder", "Enter new comment ...");
+                })
+                .fail({})
+                //alert($("#commentInput").val() + postId);
+            }
+
+            var commentBox = BootstrapDialog.show({
+                    title: 'Comments',
+                    message: showComments(),
+                    buttons: [{
+                        label: 'Add Comment',
+                        action: function () { addComment(); },
+                    //}, {
+                    //    label: 'Robert',
+                    //    action: function (dialogRef) {
+                    //        dialogRef.close();
+                    //    }
+                    }, {
+                        label: 'Close',
+                        action: function (dialogItself) {
+                            dialogItself.close();
+                        }
+                    }]
+                });
+
+        })
+        .fail(function (result) {
+
+        })
+    }
+    var dialog1 = new BootstrapDialog({
+        title: "ERROR",
+        message: "Something went wrong.Try again later.",
+
+        buttons: [
+        {
+            label: 'Close',
+            action: function (dialogItself) {
+                dialogItself.close();
+            }
+        }]
+    });
+    function reportFunction(postId) {
+        $.ajax({
+            type: "POST",
+            url: "/Home/Report",
+            data: {
+                postId: postId
+            },
+            dataType: "Json",
+
+            success: function (msg) {
+                // alert("report oldu");
+                window.location.reload(true);
+            },
+            error: function (msg) {
+                dialog1.open();
+            }
+        });
+    }
+    function markFunction(postId) {
+        $.ajax({
+            type: "POST",
+            url: "/Home/MarkPost",
+            data: {
+                postId: postId
+            },
+            dataType: "Json",
+
+            success: function (msg) {
+                // alert("report oldu");
+            },
+            error: function (msg) {
+                dialog1.open();
+            }
+        });
+    }
+</script>
+<script src="~/Scripts/HomePage.js"></script>
+
