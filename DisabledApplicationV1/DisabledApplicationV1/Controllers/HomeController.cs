@@ -64,6 +64,7 @@ namespace DisabledApplicationV1.Controllers
                             rdr[3].ToString(),
                             Convert.ToInt32(rdr[4].ToString()),
                             Convert.ToInt32(rdr[5].ToString()),
+                            Convert.ToInt32(rdr[6].ToString()),
                         });
                     }
 
@@ -320,5 +321,125 @@ namespace DisabledApplicationV1.Controllers
                 dbCon.Close();
             }
         }
+        [HttpPost]
+        public string UnclickableReportButton()
+        {
+            var dbCon = (new SqlConnection(System.Web.Configuration.WebConfigurationManager.ConnectionStrings["DisabledDB"].ConnectionString));
+            var result = new List<object>();
+            SqlCommand command = new SqlCommand();
+            SqlDataReader rdr = null;
+
+
+            try
+            {
+                dbCon.Open();
+
+
+                Member member = (Member)Session["User"];
+                int userTypeId = member.usertype;
+                int userId = member.userId;
+
+                command = new SqlCommand("[dbo].[GetAllReportedPosts]", dbCon);
+                command.CommandType = CommandType.StoredProcedure;
+
+                command.CommandTimeout = 30;
+                rdr = command.ExecuteReader();
+
+                if (rdr.HasRows)
+                {
+                    while (rdr.Read())
+                    {
+                        result.Add(new List<object>()
+                        {
+                            Convert.ToInt32(rdr[0].ToString()), // report id
+                            Convert.ToInt32(rdr[1].ToString()), // report owner id
+                            Convert.ToInt32(rdr[2].ToString()), // reported post id
+                            rdr[3].ToString() // report date
+
+                        });
+                    }
+
+
+                    return (new JavaScriptSerializer() { MaxJsonLength = Int32.MaxValue }).Serialize(new { Status = true, StatusCode = "OK", MessageList = result.ToArray() });
+                }
+                else
+                {
+                    return new JavaScriptSerializer().Serialize(new { Status = false, StatusCode = "War101" });
+                }
+
+            }
+            catch (Exception ex)
+            {
+
+                return new JavaScriptSerializer().Serialize(new { Status = false, StatusCode = ex.Message.ToString() });
+            }
+            finally
+            {
+                if (rdr != null)
+                {
+                    rdr.Close();
+                }
+                dbCon.Close();
+            }
+
+        }
+
+        [HttpPost]
+        public string UnclickableHelpButton()
+        {
+            var dbCon = (new SqlConnection(System.Web.Configuration.WebConfigurationManager.ConnectionStrings["DisabledDB"].ConnectionString));
+            var result = new List<object>();
+            SqlCommand command = new SqlCommand();
+            SqlDataReader rdr = null;
+
+
+            try
+            {
+                dbCon.Open();
+                command = new SqlCommand("[dbo].[GetAllMarkedPosts]", dbCon);
+                command.CommandType = CommandType.StoredProcedure;
+
+                command.CommandTimeout = 30;
+                rdr = command.ExecuteReader();
+
+                if (rdr.HasRows)
+                {
+                    while (rdr.Read())
+                    {
+                        result.Add(new List<object>()
+                        {
+                            Convert.ToInt32(rdr[0].ToString()), // mark id
+                            Convert.ToInt32(rdr[1].ToString()), // mark owner id
+                            Convert.ToInt32(rdr[2].ToString()), // marked post id
+                            rdr[3].ToString() // mark date
+
+                        });
+                    }
+
+
+                    return (new JavaScriptSerializer() { MaxJsonLength = Int32.MaxValue }).Serialize(new { Status = true, StatusCode = "OK", MessageList = result.ToArray() });
+                }
+                else
+                {
+                    return new JavaScriptSerializer().Serialize(new { Status = false, StatusCode = "War101" });
+                }
+
+            }
+            catch (Exception ex)
+            {
+
+                return new JavaScriptSerializer().Serialize(new { Status = false, StatusCode = ex.Message.ToString() });
+            }
+            finally
+            {
+                if (rdr != null)
+                {
+                    rdr.Close();
+                }
+                dbCon.Close();
+            }
+
+        }
+
     }
 }

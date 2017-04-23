@@ -72,10 +72,13 @@
             </div>*@
     </div>
     @{
-        //Member member = (Member)Session["Member"];
-        Member member = new Member();
+        Member member = (Member)Session["User"];
+        //Member member = new Member();
         var userType = member.usertype;
+        var userId = member.userId;
         <input type="hidden" id="userType" value=@userType />
+        <input type="hidden" id="hdnSession" data-value="@Request.RequestContext.HttpContext.Session["User"]" />
+        <input type = "hidden" id = "userId" value = @userId />
     }
 </body>
 </html>
