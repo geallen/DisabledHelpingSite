@@ -321,6 +321,70 @@ namespace DisabledApplicationV1.Controllers
                 dbCon.Close();
             }
         }
+
+        [HttpPost]
+        public string UnclickableAddList()
+        {
+            var dbCon = (new SqlConnection(System.Web.Configuration.WebConfigurationManager.ConnectionStrings["DisabledDB"].ConnectionString));
+            var result = new List<object>();
+            SqlCommand command = new SqlCommand();
+            SqlDataReader rdr = null;
+
+
+            try
+            {
+                dbCon.Open();
+
+
+                Member member = (Member)Session["User"];
+                int userTypeId = member.usertype;
+                int userId = member.userId;
+
+                command = new SqlCommand("[dbo].[GetAllAddedPosts]", dbCon);
+                command.CommandType = CommandType.StoredProcedure;
+
+                command.CommandTimeout = 30;
+                rdr = command.ExecuteReader();
+
+                if (rdr.HasRows)
+                {
+                    while (rdr.Read())
+                    {
+                        result.Add(new List<object>()
+                        {
+                            Convert.ToInt32(rdr[0].ToString()), //  id
+                            Convert.ToInt32(rdr[1].ToString()), // adder id
+                            Convert.ToInt32(rdr[3].ToString()), // post id
+                            rdr[2].ToString() // adding date
+
+                        });
+                    }
+
+
+                    return (new JavaScriptSerializer() { MaxJsonLength = Int32.MaxValue }).Serialize(new { Status = true, StatusCode = "OK", MessageList = result.ToArray() });
+                }
+                else
+                {
+                    return new JavaScriptSerializer().Serialize(new { Status = false, StatusCode = "War101" });
+                }
+
+            }
+            catch (Exception ex)
+            {
+
+                return new JavaScriptSerializer().Serialize(new { Status = false, StatusCode = ex.Message.ToString() });
+            }
+            finally
+            {
+                if (rdr != null)
+                {
+                    rdr.Close();
+                }
+                dbCon.Close();
+            }
+
+        }
+
         [HttpPost]
         public string UnclickableReportButton()
         {
@@ -416,7 +480,6 @@ namespace DisabledApplicationV1.Controllers
                         });
                     }
 
-
                     return (new JavaScriptSerializer() { MaxJsonLength = Int32.MaxValue }).Serialize(new { Status = true, StatusCode = "OK", MessageList = result.ToArray() });
                 }
                 else
@@ -439,6 +502,39 @@ namespace DisabledApplicationV1.Controllers
                 dbCon.Close();
             }
 
+        }
+
+        [HttpPost]
+        public ActionResult AddMyList(int postId)
+        {
+
+            var dbCon = (new SqlConnection(System.Web.Configuration.WebConfigurationManager.ConnectionStrings["DisabledDB"].ConnectionString));
+            var result = new List<object>();
+            try
+            {
+                dbCon.Open();
+
+                Member member = (Member)Session["User"];
+                var userId = member.userId;
+                var command = new SqlCommand("[dbo].[AddMyList]", dbCon);
+                command.CommandType = CommandType.StoredProcedure;
+                command.Parameters.Add("@AdderUserId", SqlDbType.Int).Value = userId;
+                command.Parameters.Add("@PostId", SqlDbType.Int).Value = postId;
+
+                command.CommandTimeout = 120;
+                command.Connection = dbCon;
+                command.ExecuteNonQuery();
+                return Json("You succesfully added");
+            }
+            catch (Exception ex)
+            {
+                return Json("You did not succesfully added");
+            }
+            finally
+            {
+
+                dbCon.Close();
+            }
         }
 
     }

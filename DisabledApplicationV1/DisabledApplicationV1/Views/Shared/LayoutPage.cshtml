@@ -102,10 +102,22 @@
                             <img src="~/Template/images/user.png" />
                                        </div>
                 <div class="info-container">
-                      <div class="name" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            NameSurname
-                        </div>
+                      @{
+                          if (Session["User"] != null)
+                          {
+                            <div class="name" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                @(Session["Username"])
+
+                            </div>
+                          }
+                          if (Session["User"] == null)
+                          {
+                              Response.Redirect("~/Account/Login");
+
+                          }
+                    }
                     </div>
+
             </div>
             <!-- #User Info -->
             <!-- Menu -->

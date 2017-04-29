@@ -16,7 +16,7 @@
     var helperNumber = " comments - ";
     var reports = " reports - ";
     var helps = " helps";
-    var addList = "   Add This To My List"
+    var addList = "Add This To My List"
     $('#roww1').empty();
     result = result.MessageList
     uzunluk = result.length;
@@ -29,8 +29,8 @@
         '<a href="#">' + result[i][3] + '</a>' +
         '</span>' +
         '<span class="pull-right text-muted" style="float: right!important; color:#777;">' +
-         '<button type="button" id="addListButton' + i + '"' + 'class="btn btn-default btn-xs" data-toggle="modal" data-target="#myModal" data-postId=' + result[i][0] + ' style="background:#f4f4f4; color:#444; margin-left: 5px; margin-bottom: 5px; border-color:#ddd;" onclick="markFunction(' + result[i][0] + ')">' +
-        '<i class="fa fa-plus-square" style="display: inline-block; font: normal normal normal 14px FontAwesome; color:deepskyblue; text-rendering: auto;    -webkit-font-smoothing: antialiased;"></i>' + addList + '</button>' + '</span>' +
+         '<button type="button" title="' + addList + '" id="addListButton' + i + '"' + 'class="btn btn-default btn-xs" data-toggle="modal" data-target="#myModal" data-postId=' + result[i][0] + ' style="background:white; color:#444; margin-left: 5px; margin-bottom: 5px; border-color:#ddd;" onclick="addMyList(' + result[i][0] + ')">' +
+        '<i class="fa fa-plus-square" style="display: inline-block; font: normal normal normal 18px FontAwesome; color:deepskyblue; text-rendering: auto;    -webkit-font-smoothing: antialiased;"></i></button>' + '</span>' +
         '<span class="description" style="color:#999; font-size:13px;">' + result[i][2] +
         '</span>' +'</div></div>' +
         '<div class="box-body" style="border-top-left-radius: 0; border-top-right-radius: 0; border-bottom-right-radius: 3px; border-bottom-left-radius: 3px; padding: 10px;" >' +
@@ -53,8 +53,10 @@
      // var buttonId = document.getElementById('reportButton' + i);
       var reportbuttonId = 'reportButton' + i;
       var helpedbuttonId = 'helpedButton' + i;
+      var addListButtonId = 'addListButton' + i;
       unclickableReport(result[i][0], reportbuttonId, userId2);
       unclickableMark(result[i][0], helpedbuttonId, userId2);
+      unclickableAddList(result[i][0], addListButtonId, userId2);
     }
 
     //unclickableReport(postId);
@@ -71,6 +73,27 @@
 
 
 });
+function unclickableAddList(postID, buttonId, userId) {
+  //alert(postID + buttonId);
+  $.ajax({
+    type: "POST",
+    url: "/Home/UnclickableAddList",
+    // data:{},
+    dataType: "JSON"
+  })
+ .done(function (result) {
+   // alert("done");
+   result = result.MessageList;
+   for (var i = 0; i < result.length; i++) {
+     if (result[i][1] == userId && result[i][2] == postID) {
+       document.getElementById(buttonId).disabled = true;
+     }
+   }
+ })
+ .fail(function (result) {
+   console.log(result);
+ })
+}
 function unclickableReport(postID, buttonId, userId) {
   //alert(postID + buttonId);
   $.ajax({

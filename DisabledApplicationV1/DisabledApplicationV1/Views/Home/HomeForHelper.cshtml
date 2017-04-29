@@ -9,6 +9,11 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+       <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap3-dialog/1.34.5/css/bootstrap-dialog.min.css" rel="stylesheet" type="text/css">
+
+
 </head>
 <body>
     @*<div class="container">
@@ -78,11 +83,18 @@
         var userId = member.userId;
         <input type="hidden" id="userType" value=@userType />
         <input type="hidden" id="hdnSession" data-value="@Request.RequestContext.HttpContext.Session["User"]" />
-        <input type = "hidden" id = "userId" value = @userId />
+        <input type="hidden" id="userId" value=@userId />
     }
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+
+    <script src="~/Scripts/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap3-dialog/1.34.5/js/bootstrap-dialog.min.js"></script>
+
 </body>
 </html>
 <script>
+
 
     function myf(postId) {
         $.ajax({
@@ -97,41 +109,41 @@
             result = result.MessageList;
             var comment;
             function showComments() {
-               var comments = "";
-               if (result == null) {
-                   // sadece form u goster.
-                   var $enterComment = '<div class="box-footer" style="border-top-left-radius: 0;  border-top-right-radius: 0; border-bottom-right-radius: 3px; border-bottom-left-radius: 3px; border-top: 1px solid #f4f4f4; padding: 10px; background-color: #fff;">' +
-                     '<form action="#" method="post"><input type="text" class="form-control input-sm" id="commentInput" placeholder="Press enter to post comment" style="    height: 30px; padding: 5px 10px; font-size: 12px; line-height: 1.5;     border-radius: 0; box-shadow: none; border-color: #d2d6de;"></form></div>'
-                   ;
-                   comments += "No comments yet.";
-                   comments += $enterComment;
-                   // formu buraya yaz
-                   return $('<div></div>').append(comments);
-               }
-               else {
-                   var commentNumber ="  "+  result.length + " comments";
-                   comments += commentNumber;
-                   for (var i = 0; i < result.length; i++) {
-                       var $comment = '<div class="box-comment" style="padding: 8px 15px 8px 15px; border-bottom: 1px solid #eee; background-color: #f7f7f7">' +
-                           '<div class="comment-text" syle="color: #555">' +
-                           '<span class="username" style="color: #444; display: block; font-weight: 600">' +
-                           result[i][2] +
-                           '<span class="text-muted pull-right" style="font-weight: 400; font-size: 12px; color:#777;">' +
-                           result[i][0] +
-                           '</span></span>' +
-                           result[i][1] +
-                           '</div></div>';
-                       comments += $comment;
-                   }
-                   var $enterComment = '<div class="box-footer" style="border-top-left-radius: 0;  border-top-right-radius: 0; border-bottom-right-radius: 3px; border-bottom-left-radius: 3px; border-top: 1px solid #f4f4f4; padding: 10px; background-color: #fff;">'+
-                       '<form action="#" method="post"><input type="text" class="form-control input-sm" id="commentInput" placeholder="Write your comment here ..." style="    height: 30px; padding: 5px 10px; font-size: 12px; line-height: 1.5;     border-radius: 0; box-shadow: none; border-color: #d2d6de;"></form></div>'
-                      ;
+                var comments = "";
+                if (result == null) {
+                    // sadece form u goster.
+                    var $enterComment = '<div class="box-footer" style="border-top-left-radius: 0;  border-top-right-radius: 0; border-bottom-right-radius: 3px; border-bottom-left-radius: 3px; border-top: 1px solid #f4f4f4; padding: 10px; background-color: #fff;">' +
+                      '<form action="#" method="post"><input type="text" class="form-control input-sm" id="commentInput" placeholder="Press enter to post comment" style="    height: 30px; padding: 5px 10px; font-size: 12px; line-height: 1.5;     border-radius: 0; box-shadow: none; border-color: #d2d6de;"></form></div>'
+                    ;
+                    comments += "No comments yet.";
+                    comments += $enterComment;
+                    // formu buraya yaz
+                    return $('<div></div>').append(comments);
+                }
+                else {
+                    var commentNumber = "  " + result.length + " comments";
+                    comments += commentNumber;
+                    for (var i = 0; i < result.length; i++) {
+                        var $comment = '<div class="box-comment" style="padding: 8px 15px 8px 15px; border-bottom: 1px solid #eee; background-color: #f7f7f7">' +
+                            '<div class="comment-text" syle="color: #555">' +
+                            '<span class="username" style="color: #444; display: block; font-weight: 600">' +
+                            result[i][2] +
+                            '<span class="text-muted pull-right" style="font-weight: 400; font-size: 12px; color:#777;">' +
+                            result[i][0] +
+                            '</span></span>' +
+                            result[i][1] +
+                            '</div></div>';
+                        comments += $comment;
+                    }
+                    var $enterComment = '<div class="box-footer" style="border-top-left-radius: 0;  border-top-right-radius: 0; border-bottom-right-radius: 3px; border-bottom-left-radius: 3px; border-top: 1px solid #f4f4f4; padding: 10px; background-color: #fff;">' +
+                        '<form action="#" method="post"><input type="text" class="form-control input-sm" id="commentInput" placeholder="Write your comment here ..." style="    height: 30px; padding: 5px 10px; font-size: 12px; line-height: 1.5;     border-radius: 0; box-shadow: none; border-color: #d2d6de;"></form></div>'
+                    ;
 
-                   comments += $enterComment;
-                   // formu buraya yaz
-                   return $('<div></div>').append(comments);
+                    comments += $enterComment;
+                    // formu buraya yaz
+                    return $('<div></div>').append(comments);
 
-               }
+                }
             }
             function addComment() {
                 var comment = $("#commentInput").val();
@@ -144,7 +156,7 @@
                     },
                     dataType: "JSON"
                 })
-                .done(function(){
+                .done(function () {
                     $("#commentInput").val('');
                     $("#commentInput").attr("placeholder", "Enter new comment ...");
                 })
@@ -153,23 +165,23 @@
             }
 
             var commentBox = BootstrapDialog.show({
-                    title: 'Comments',
-                    message: showComments(),
-                    buttons: [{
-                        label: 'Add Comment',
-                        action: function () { addComment(); },
+                title: 'Comments',
+                message: showComments(),
+                buttons: [{
+                    label: 'Add Comment',
+                    action: function () { addComment(); },
                     //}, {
                     //    label: 'Robert',
                     //    action: function (dialogRef) {
                     //        dialogRef.close();
                     //    }
-                    }, {
-                        label: 'Close',
-                        action: function (dialogItself) {
-                            dialogItself.close();
-                        }
-                    }]
-                });
+                }, {
+                    label: 'Close',
+                    action: function (dialogItself) {
+                        dialogItself.close();
+                    }
+                }]
+            });
 
         })
         .fail(function (result) {
@@ -222,6 +234,34 @@
                 dialog1.open();
             }
         });
+    }
+    var dialog2 = new BootstrapDialog({
+        title: "SUCCESSFUL",
+        message: "This post succesfully added to your list.",
+
+        buttons: [
+        {
+            label: 'Close',
+            action: function (dialogItself) {
+                dialogItself.close();
+            }
+        }]
+    });
+    function addMyList(postId) {
+        $.ajax({
+            type: "POST",
+            url: "/Home/AddMyList",
+            data: {
+                postId: postId
+            },
+            dataType: "JSON",
+        })
+         .done(function () {
+             dialog2.open();
+         })
+                .fail(function () {
+                    dialog1.open();
+                })
     }
 </script>
 <script src="~/Scripts/HomePage.js"></script>

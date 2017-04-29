@@ -29,10 +29,37 @@ namespace DisabledApplicationV1.Controllers
 
             var dbCon = (new SqlConnection(System.Web.Configuration.WebConfigurationManager.ConnectionStrings["DisabledDB"].ConnectionString));
             var result = new List<object>();
+            var result1 = new List<object>();
+            List<string> abc = new List<string>();
+            SqlDataReader rdr1 = null;
             try
             {
                 dbCon.Open();
 
+                var command1 = new SqlCommand("[dbo].[CheckUserList]", dbCon);
+                command1.CommandType = CommandType.StoredProcedure;
+                command1.CommandTimeout = 30;
+                command1.Connection = dbCon;
+
+                rdr1 = command1.ExecuteReader();
+
+
+                if (rdr1.HasRows)
+                {
+                    while (rdr1.Read())
+                    {
+                        abc.Add(rdr1[0].ToString());
+                    }
+                }
+
+                for (int i = 0; i <= abc.Count(); i++)
+                {
+                    if (abc[i] == username)
+                    {
+                        // return new JavaScriptSerializer().Serialize(new { Status = false, StatusCode = "War101" });
+                        return Json("Error");
+                    }
+                }
 
                 var command = new SqlCommand("[dbo].[RegisterOperation]", dbCon);
                 command.CommandType = CommandType.StoredProcedure;
@@ -117,7 +144,7 @@ namespace DisabledApplicationV1.Controllers
                         member.story = rdr[6].ToString();
 
                         Session["User"] = member;
-
+                        Session["Username"] = member.username;
                     }
 
                     return (new JavaScriptSerializer() { MaxJsonLength = Int32.MaxValue }).Serialize(new { Status = true, StatusCode = "OK", MessageList = result.ToArray() });

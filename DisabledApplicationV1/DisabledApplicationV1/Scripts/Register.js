@@ -1,4 +1,16 @@
 ﻿$(document).ready(function () {
+  var dialog = new BootstrapDialog({
+    title: "Error",
+    message: "You cannot leave empty Name, Surname, Username, Password fields.",
+
+    buttons: [
+    {
+      label: 'Close',
+      action: function (dialogItself) {
+        dialogItself.close();
+      }
+    }]
+  });
   var dialog1 = new BootstrapDialog({
     title: "SUCCESSFUL",
     message: "You succesfully registered to system.",
@@ -11,9 +23,22 @@
       }
     }]
   });
+
   var dialog2 = new BootstrapDialog({
     title: "ERROR",
     message: "Something went wrong.Try again later.",
+
+    buttons: [
+    {
+      label: 'Close',
+      action: function (dialogItself) {
+        dialogItself.close();
+      }
+    }]
+  });
+  var dialog3 = new BootstrapDialog({
+    title: "ERROR",
+    message: "This username already taken.Please try another username.",
 
     buttons: [
     {
@@ -38,7 +63,9 @@
     } else {
       story = $("#story").val();
     }
-
+    if (username == "" || name == "" || surname == "" || password == "") {
+      dialog.open();
+    }else{
     $.ajax({
       type: "POST",
       url: "/Account/RegisterOperations",
@@ -52,15 +79,17 @@
       },
       dataType: "Json",
       success: function (msg) {
-        dialog1.open();
-        if (dialog1.opened == true) {
-          var url3 = "/Account/Login";
-          window.location.href = url3;
+        //console.log(msg);
+        if (msg == "Error") {
+          dialog3.open();
+        } else {
+          dialog1.open();
         }
       },
       error: function (msg) {
         dialog2.open();
       }
     });
+      }
   });
 });
