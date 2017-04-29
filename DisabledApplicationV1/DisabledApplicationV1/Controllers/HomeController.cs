@@ -17,6 +17,10 @@ namespace DisabledApplicationV1.Controllers
         {
             return View();
         }
+        public ActionResult MyList()
+        {
+            return View();
+        }
         public ActionResult HomeForHelper()
         {
             return View();
@@ -25,6 +29,71 @@ namespace DisabledApplicationV1.Controllers
         public ActionResult HomePageForDisabled()
         {
             return View();
+        }
+        [HttpPost]
+        public string ShowMyList()
+        {
+            var dbCon = (new SqlConnection(System.Web.Configuration.WebConfigurationManager.ConnectionStrings["DisabledDB"].ConnectionString));
+            var result = new List<object>();
+            SqlCommand command = new SqlCommand();
+            SqlCommand command2 = new SqlCommand();
+            SqlDataReader rdr = null;
+            SqlDataReader rdr2 = null;
+
+            try
+            {
+                dbCon.Open();
+
+
+                Member member = (Member)Session["User"];
+                int userTypeId = member.usertype;
+                int userId = member.userId;
+
+                command = new SqlCommand("[dbo].[ShowList]", dbCon);
+                command.CommandType = CommandType.StoredProcedure;
+                //command.Parameters.Add("@UserTypeId", SqlDbType.Int).Value = userTypeId;
+                command.Parameters.Add("@UserId", SqlDbType.Int).Value = userId;
+                command.CommandTimeout = 30;
+                rdr = command.ExecuteReader();
+
+                if (rdr.HasRows)
+                {
+                    while (rdr.Read())
+                    {
+                        result.Add(new List<object>()
+                        {
+                            Convert.ToInt32(rdr[0].ToString()),
+                            rdr[1].ToString(),
+                            rdr[2].ToString(),
+                            rdr[3].ToString(),
+                            Convert.ToInt32(rdr[4].ToString()),
+                            Convert.ToInt32(rdr[5].ToString()),
+                            Convert.ToInt32(rdr[6].ToString()),
+                        });
+                    }
+
+                    return (new JavaScriptSerializer() { MaxJsonLength = Int32.MaxValue }).Serialize(new { Status = true, StatusCode = "OK", MessageList = result.ToArray() });
+                }
+                else
+                {
+                    return new JavaScriptSerializer().Serialize(new { Status = false, StatusCode = "War101" });
+                }
+
+            }
+            catch (Exception ex)
+            {
+
+                return new JavaScriptSerializer().Serialize(new { Status = false, StatusCode = ex.Message.ToString() });
+            }
+            finally
+            {
+                if (rdr != null)
+                {
+                    rdr.Close();
+                }
+                dbCon.Close();
+            }
+
         }
         [HttpPost]
         public string HomePage()
@@ -180,6 +249,36 @@ namespace DisabledApplicationV1.Controllers
             catch (Exception ex)
             {
                 return Json("You did not succesfully registered to system");
+            }
+            finally
+            {
+
+                dbCon.Close();
+            }
+        }
+        [HttpPost]
+        public ActionResult RemoveMyList(int postId, int userId)
+        {
+
+            var dbCon = (new SqlConnection(System.Web.Configuration.WebConfigurationManager.ConnectionStrings["DisabledDB"].ConnectionString));
+            var result = new List<object>();
+            try
+            {
+                dbCon.Open();
+
+                var command = new SqlCommand("[dbo].[RemoveFromList]", dbCon);
+                command.CommandType = CommandType.StoredProcedure;
+                command.Parameters.Add("@UserId", SqlDbType.NVarChar).Value = userId;
+                command.Parameters.Add("@PostId", SqlDbType.Int).Value = postId;
+
+                command.CommandTimeout = 120;
+                command.Connection = dbCon;
+                command.ExecuteNonQuery();
+                return Json("Removed");
+            }
+            catch (Exception ex)
+            {
+                return Json("Error when removing");
             }
             finally
             {

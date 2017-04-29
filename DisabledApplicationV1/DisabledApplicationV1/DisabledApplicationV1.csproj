@@ -98,6 +98,7 @@
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
     <Content Include="Scripts\Login.js" />
+    <Content Include="Scripts\MyList.js" />
     <Content Include="Scripts\Register.js" />
     <Content Include="Template\css\dialog.css" />
     <Content Include="Template\css\disabledPage.css" />
@@ -3663,6 +3664,7 @@
     <Content Include="Views\Account\Login.cshtml" />
     <Content Include="Views\Home\HomeForHelper.cshtml" />
     <Content Include="Views\Home\HomePageForDisabled.cshtml" />
+    <Content Include="Views\Home\MyList.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

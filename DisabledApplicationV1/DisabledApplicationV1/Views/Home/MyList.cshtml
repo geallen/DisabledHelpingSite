@@ -1,6 +1,6 @@
 ﻿@using DisabledApplicationV1.Models
 @{
-    ViewBag.Title = "HomeForHelper";
+    ViewBag.Title = "MyList";
     Layout = "~/Views/Shared/LayoutPage.cshtml";
 }
 <!DOCTYPE html>
@@ -10,13 +10,13 @@
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
-       <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap3-dialog/1.34.5/css/bootstrap-dialog.min.css" rel="stylesheet" type="text/css">
 
 
 </head>
 <body>
-       <div class="row" id="roww1">
+    <div class="row" id="roww1">
 
     </div>
     @{
@@ -35,9 +35,7 @@
 </body>
 </html>
 <script>
-
-
-    function myf(postId) {
+       function myf(postId) {
         $.ajax({
             type: "POST",
             url: "/Home/GetComments",
@@ -168,7 +166,7 @@
     }
     var dialog2 = new BootstrapDialog({
         title: "SUCCESSFUL",
-        message: "This post succesfully added to your list.",
+        message: "This post succesfully removed from your list.",
 
         buttons: [
         {
@@ -178,22 +176,34 @@
             }
         }]
     });
-    function addMyList(postId) {
+    function removeMyList(postId, userId, elementId) {
         $.ajax({
             type: "POST",
-            url: "/Home/AddMyList",
+            url: "/Home/RemoveMyList",
             data: {
-                postId: postId
+                postId: postId,
+                userId: userId
             },
             dataType: "JSON",
-        })
-         .done(function () {
-             dialog2.open();
-         })
-                .fail(function () {
+            success: function (msg) {
+                //console.log(msg);
+                if (msg == "Removed") {
+                  //  document.location.reload(true);
+                   // dialog2.open();
+                    // document.getElementById(postId).style.display = "none";
+                    $(elementId).remove();
+                   // $("div#myid0.col-md-10.col-md-offset-1").remove();
+                    //div#myid0.col-md-10.col-md-offset-1
+                    //document.getElementById(elementId).remove();
+
+                } else {
                     dialog1.open();
-                })
+                }
+            },
+            error: function (msg) {
+                dialog2.open();
+            }
+        });
     }
 </script>
-<script src="~/Scripts/HomePage.js"></script>
-
+<script src="~/Scripts/MyList.js"></script>
