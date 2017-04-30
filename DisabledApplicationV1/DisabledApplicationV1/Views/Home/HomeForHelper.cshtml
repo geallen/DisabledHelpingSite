@@ -178,7 +178,7 @@
             }
         }]
     });
-    function addMyList(postId) {
+    function addMyList(postId, buttonId) {
         $.ajax({
             type: "POST",
             url: "/Home/AddMyList",
@@ -189,6 +189,7 @@
         })
          .done(function () {
              dialog2.open();
+             document.getElementById('addListButton'+buttonId).disabled = true;
          })
                 .fail(function () {
                     dialog1.open();

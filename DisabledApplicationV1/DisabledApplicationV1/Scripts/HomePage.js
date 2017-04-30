@@ -29,7 +29,7 @@
         '<a href="#">' + result[i][3] + '</a>' +
         '</span>' +
         '<span class="pull-right text-muted" style="float: right!important; color:#777;">' +
-         '<button type="button" title="' + addList + '" id="addListButton' + i + '"' + 'class="btn btn-default btn-xs" data-toggle="modal" data-target="#myModal" data-postId=' + result[i][0] + ' style="background:white; color:#444; margin-left: 5px; margin-bottom: 5px; border-color:#ddd;" onclick="addMyList(' + result[i][0] + ')">' +
+         '<button type="button" title="' + addList + '" id="addListButton' + i + '"' + 'class="btn btn-default btn-xs" data-toggle="modal" data-target="#myModal" data-postId=' + result[i][0] + ' style="background:white; color:#444; margin-left: 5px; margin-bottom: 5px; border-color:#ddd;" onclick="addMyList(' + result[i][0] +","+ i +')">' +
         '<i class="fa fa-plus-square" style="display: inline-block; font: normal normal normal 18px FontAwesome; color:deepskyblue; text-rendering: auto;    -webkit-font-smoothing: antialiased;"></i></button>' + '</span>' +
         '<span class="description" style="color:#999; font-size:13px;">' + result[i][2] +
         '</span>' +'</div></div>' +
