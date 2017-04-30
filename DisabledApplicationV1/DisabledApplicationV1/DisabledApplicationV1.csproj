@@ -168,6 +168,7 @@
     <Content Include="Template\images\animation-bg.jpg" />
     <Content Include="Template\images\background.jpg" />
     <Content Include="Template\images\favicon.ico" />
+    <Content Include="Template\images\logo.jpg" />
     <Content Include="Template\images\preloader.gif" />
     <Content Include="Template\images\sade-beyaz.png" />
     <Content Include="Template\images\sadelabs.jpg" />

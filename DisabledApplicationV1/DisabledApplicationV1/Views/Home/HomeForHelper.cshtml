@@ -133,7 +133,7 @@
             }
         }]
     });
-    function reportFunction(postId) {
+    function reportFunction(postId,i) {
         $.ajax({
             type: "POST",
             url: "/Home/Report",
@@ -143,14 +143,15 @@
             dataType: "Json",
 
             success: function (msg) {
-                window.location.reload(true);
+                // window.location.reload(true);
+                document.getElementById('reportButton' + buttonId).disabled = true;
             },
             error: function (msg) {
                 dialog1.open();
             }
         });
     }
-    function markFunction(postId) {
+    function markFunction(postId,buttonId) {
         $.ajax({
             type: "POST",
             url: "/Home/MarkPost",
@@ -160,6 +161,8 @@
             dataType: "Json",
 
             success: function (msg) {
+                document.getElementById('helpedButton' + buttonId).disabled = true;
+
             },
             error: function (msg) {
                 dialog1.open();
