@@ -1,0 +1,155 @@
+﻿
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Roboto:400,700&subset=latin,cyrillic-ext" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" type="text/css">
+    <!-- Bootstrap Core Css -->
+    <link href="~/Template/plugins/bootstrap/css/bootstrap.css" rel="stylesheet">
+    <!-- Waves Effect Css -->
+    <link href="~/Template/plugins/node-waves/waves.css" rel="stylesheet" />
+    <!-- Animation Css -->
+    <link href="~/Template/plugins/animate-css/animate.css" rel="stylesheet" />
+    <!-- Morris Chart Css-->
+    <link href="~/Template/plugins/morrisjs/morris.css" rel="stylesheet" />
+    <!-- Custom Css -->
+    <link href="~/Template/css/style.css" rel="stylesheet">
+    <link href="~/Template/css/themes/all-themes.css" rel="stylesheet" />
+    <link href="~/Template/plugins/bootstrap-material-datetimepicker/css/bootstrap-material-datetimepicker.css" rel="stylesheet" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <link href="~/Template/plugins/waitme/waitMe.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.5.0/css/font-awesome.min.css">
+    <link href="~/Template/plugins/bootstrap-select/css/bootstrap-select.css" rel="stylesheet" />
+    <link href="~/Template/plugins/jquery-datatable/skin/bootstrap/css/dataTables.bootstrap.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap3-dialog/1.35.3/css/bootstrap-dialog.css" rel="stylesheet">
+    <link rel="shortcut icon" type="image/x-icon" href="~/Template/images/faviconLogo.ico" />
+
+</head>
+<body class="theme-red">
+    <div class="page-loader-wrapper">
+        <div class="loader">
+            <div class="preloader">
+                <div class="spinner-layer pl-red">
+                    <div class="circle-clipper left">
+                        <div class="circle"></div>
+                    </div>
+                    <div class="circle-clipper right">
+                        <div class="circle"></div>
+                    </div>
+                </div>
+            </div>
+            <p>Please wait...</p>
+        </div>
+    </div>
+    <div class="overlay"></div>
+
+    <div class="search-bar">
+        <div class="search-icon">
+            <i class="material-icons">search</i>
+        </div>
+        <input type="text" placeholder="START TYPING...">
+        <div class="close-search">
+            <i class="material-icons">close</i>
+        </div>
+    </div>
+
+    <nav class="navbar" style="height: 70px;">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <a href="javascript:void(0);" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse" aria-expanded="false"></a>
+                <a href="javascript:void(0);" class="bars"></a>
+                @*<img src="http://placehold.it/250x250" width="250" height="250" />*@
+
+                <a class="navbar-brand" href="#">MAKE EVERYONE VISIBLE</a>
+            </div>
+            <div class="navbar-right">
+                @*<h3 style="color:white;font-weight: 500;">Make Everyone Visible</h3>*@
+                @*<a class="navbar-brand" href="#">ADMINBSB - MATERIAL DESIGN</a>*@
+            </div>
+        </div>
+    </nav>
+    <section>
+        <aside id="leftsidebar" class="sidebar">
+            <div class="user-info">
+                <div class="image">
+                    <img src="~/Template/images/user.png" />
+                </div>
+                <div class="info-container">
+                    @{
+                        if (Session["User"] != null)
+                        {
+                            <div class="name" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                @(Session["Username"])
+
+                            </div>
+                        }
+                        if (Session["User"] == null)
+                        {
+                            Response.Redirect("~/Account/Login");
+
+                        }
+                    }
+                </div>
+
+            </div>
+
+            <div class="menu">
+                <ul class="list">
+                    <li class="header">Menu</li>
+                    <li>
+                        <a href="/Home/HomeForHelper">
+                            <i class="material-icons">subtitles</i>
+                            <span>Show Posts</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/Home/MyList">
+                            <i class="material-icons">assignment</i>
+                            <span>My List</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="~/Account/Logout">
+                            <i class="material-icons">input</i>
+                            <span>SignOut</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+
+        </aside>
+
+    </section>
+    <section class="content">
+        <div class="container-fluid">
+            <div class="block-header">
+                @RenderBody()
+            </div>
+        </div>
+
+    </section>
+
+    <script src="~/Template/plugins/jquery/jquery.min.js"></script>
+    <script src="~/Template/plugins/bootstrap/js/bootstrap.js"></script>
+    <script src="~/Template/js/admin.js"></script>
+    <script src="~/Template/plugins/bootstrap-select/js/bootstrap-select.js"></script>
+    <script src="~/Template/plugins/jquery-slimscroll/jquery.slimscroll.js"></script>
+    <script src="~/Template/plugins/node-waves/waves.js"></script>
+    <script src="~/Template/plugins/autosize/autosize.js"></script>
+    <script src="~/Template/plugins/momentjs/moment.js"></script>
+    <script src="~/Template/plugins/bootstrap-material-datetimepicker/js/bootstrap-material-datetimepicker.js"></script>
+    <script src="~/Template/js/pages/forms/basic-form-elements.js"></script>
+    <script src="~/Template/plugins/jquery-datatable/jquery.dataTables.js"></script>
+    <script src="~/Template/plugins/jquery-datatable/skin/bootstrap/js/dataTables.bootstrap.js"></script>
+    <script src="~/Template/js/pages/tables/jquery-datatable.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap3-dialog/1.35.3/js/bootstrap-dialog.js"></script>
+    <script src="~/Template/js/demo.js"></script>
+
+    @RenderSection("Footer", required: false);
+</body>
+</html>
