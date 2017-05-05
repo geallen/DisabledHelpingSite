@@ -58,9 +58,6 @@
         dataType: "JSON"
       })
       .done(function (result) {
-        //alert("oldu");
-        result = result.MessageList
-
 
         if (result.StatusCode == "War101") {
           loginError.open();
@@ -68,6 +65,7 @@
           $("#password").val('');
 
         } else {
+          result = result.MessageList
           if (result[0][7] == 1) {
             loginError2.open();
           } else {

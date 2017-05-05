@@ -10,6 +10,7 @@
   })
   .done(function (result) {
     if (result.StatusCode == "War101") {
+
     } else {
     var comment = "  Show Comments";
     var report = "  Report This Post";

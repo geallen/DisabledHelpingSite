@@ -1,4 +1,4 @@
-﻿
+﻿@using DisabledApplicationV1.Models
 <!DOCTYPE html>
 <html>
 <head>
@@ -107,12 +107,21 @@
                             <span>Show Posts</span>
                         </a>
                     </li>
+
                     <li>
+                       @{
+                           Member member = (Member)Session["User"];
+                           var userType = member.usertype;
+                           if (userType == 1)
+                           {
+
                         <a href="/Home/MyList">
                             <i class="material-icons">assignment</i>
                             <span>My List</span>
                         </a>
+                           }}
                     </li>
+
                     <li>
                         <a href="~/Account/Logout">
                             <i class="material-icons">input</i>
