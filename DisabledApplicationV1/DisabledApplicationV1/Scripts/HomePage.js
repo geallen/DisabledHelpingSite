@@ -103,10 +103,14 @@ function unclickableReport(postID, buttonId, userId) {
     dataType: "JSON"
   })
  .done(function (result) {
-   result = result.MessageList;
-   for (var i = 0; i < result.length; i++) {
-     if (result[i][1] == userId && result[i][2] == postID) {
-       document.getElementById(buttonId).disabled = true;
+   if (result.StatusCode == "War101") {
+
+   } else {
+     result = result.MessageList;
+     for (var i = 0; i < result.length; i++) {
+       if (result[i][1] == userId && result[i][2] == postID) {
+         document.getElementById(buttonId).disabled = true;
+       }
      }
    }
  })
@@ -122,10 +126,14 @@ function unclickableMark(postID, buttonId, userId) {
     dataType: "JSON"
   })
  .done(function (result) {
-   result = result.MessageList;
-   for (var i = 0; i < result.length; i++) {
-     if (result[i][1] == userId && result[i][2] == postID) {
-       document.getElementById(buttonId).disabled = true;
+   if (result.StatusCode == "War101") {
+
+   } else {
+     result = result.MessageList;
+     for (var i = 0; i < result.length; i++) {
+       if (result[i][1] == userId && result[i][2] == postID) {
+         document.getElementById(buttonId).disabled = true;
+       }
      }
    }
  })

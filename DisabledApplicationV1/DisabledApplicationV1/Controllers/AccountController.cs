@@ -133,7 +133,8 @@ namespace DisabledApplicationV1.Controllers
                             rdr[3].ToString(), // username
                             rdr[4].ToString(), // password
                             rdr[5].ToString(), // usertype
-                            rdr[6].ToString() // story
+                            rdr[6].ToString(), // story
+                            Convert.ToInt32(rdr[7].ToString()) // remove count
                             }
                         );
 

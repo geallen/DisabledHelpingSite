@@ -23,6 +23,18 @@
       }
     }]
   });
+  var loginError2 = new BootstrapDialog({
+    title: "Error",
+    message: "You removed from the system because of reports about you",
+
+    buttons: [
+    {
+      label: 'Close',
+      action: function (dialogItself) {
+        dialogItself.close();
+      }
+    }]
+  });
   $("#loginButton").submit(function (e) {
     e.preventDefault();
 
@@ -47,24 +59,28 @@
       })
       .done(function (result) {
         //alert("oldu");
-        console.log("oldu");
-        console.log(result.Status);
-        console.log(result.StatusCode);
-        console.log(result);
+        result = result.MessageList
+
+
         if (result.StatusCode == "War101") {
           loginError.open();
           $("#username").val('');
           $("#password").val('');
 
         } else {
-          if (userType == 1) {
-            var url1 = "/Home/HomeForHelper";
-            // var userimagePath = devices[0][4];
-            window.location.href = url1;
-          }
-          if (userType == 2) {
-            var url2 = "/Home/HomePageForDisabled";
-            window.location.href = url2;
+          if (result[0][7] == 1) {
+            loginError2.open();
+          } else {
+
+            if (userType == 1) {
+              var url1 = "/Home/HomeForHelper";
+              // var userimagePath = devices[0][4];
+              window.location.href = url1;
+            }
+            if (userType == 2) {
+              var url2 = "/Home/HomePageForDisabled";
+              window.location.href = url2;
+            }
           }
         }
       })
