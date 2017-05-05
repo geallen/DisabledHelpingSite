@@ -165,16 +165,11 @@
     <Content Include="Template\documentation\templates\license.html" />
     <Content Include="Template\documentation\templates\plugins.html" />
     <Content Include="Template\images\5.jpg" />
-    <Content Include="Template\images\animation-bg.jpg" />
     <Content Include="Template\images\background.jpg" />
     <Content Include="Template\images\favicon.ico" />
     <Content Include="Template\images\faviconLogo.ico" />
     <Content Include="Template\images\logo.jpg" />
     <Content Include="Template\images\preloader.gif" />
-    <Content Include="Template\images\sade-beyaz.png" />
-    <Content Include="Template\images\sadelabs.jpg" />
-    <Content Include="Template\images\sadelabskucuk.jpg" />
-    <Content Include="Template\images\tl.png" />
     <Content Include="Template\images\user-img-background.jpg" />
     <Content Include="Template\images\user.png" />
     <Content Include="Template\js\admin.js" />

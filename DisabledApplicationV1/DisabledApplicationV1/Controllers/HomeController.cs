@@ -38,7 +38,7 @@ namespace DisabledApplicationV1.Controllers
             SqlCommand command = new SqlCommand();
             SqlCommand command2 = new SqlCommand();
             SqlDataReader rdr = null;
-            SqlDataReader rdr2 = null;
+//            SqlDataReader rdr2 = null;
 
             try
             {
