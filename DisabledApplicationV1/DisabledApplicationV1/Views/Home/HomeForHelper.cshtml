@@ -18,14 +18,22 @@
 
     </div>
     @{
-        Member member = (Member)Session["User"];
-        //Member member = new Member();
-        var userType = member.usertype;
-        var userId = member.userId;
+        if (Session["User"] == null)
+        {
+            Response.Redirect("~/Account/Login");
+
+        }
+        else
+        {
+            Member member = (Member)Session["User"];
+            //Member member = new Member();
+            var userType = member.usertype;
+            var userId = member.userId;
         <input type="hidden" id="userType" value=@userType />
         <input type="hidden" id="hdnSession" data-value="@Request.RequestContext.HttpContext.Session["User"]" />
         <input type="hidden" id="userId" value=@userId />
-    }
+            }
+        }
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
     <script src="~/Scripts/bootstrap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap3-dialog/1.34.5/js/bootstrap-dialog.min.js"></script>

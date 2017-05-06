@@ -47,7 +47,6 @@
         </div>
     </div>
     <div class="overlay"></div>
-
     <div class="search-bar">
         <div class="search-icon">
             <i class="material-icons">search</i>
@@ -57,14 +56,18 @@
             <i class="material-icons">close</i>
         </div>
     </div>
-
+    @*@{
+        if ((Session["User"] == null) && (Session["Username"] == null))
+        {
+            return RedirectToAction("Login", "Account");
+        }
+    }*@
     <nav class="navbar" style="height: 70px;">
         <div class="container-fluid">
             <div class="navbar-header">
                 <a href="javascript:void(0);" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse" aria-expanded="false"></a>
                 <a href="javascript:void(0);" class="bars"></a>
                 @*<img src="http://placehold.it/250x250" width="250" height="250" />*@
-
                 <a class="navbar-brand" href="#">MAKE EVERYONE VISIBLE</a>
             </div>
             <div class="navbar-right">
@@ -85,7 +88,6 @@
                         {
                             <div class="name" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 @(Session["Username"])
-
                             </div>
                         }
                         if (Session["User"] == null)
@@ -95,31 +97,51 @@
                         }
                     }
                 </div>
-
             </div>
-
             <div class="menu">
                 <ul class="list">
                     <li class="header">Menu</li>
                     <li>
+                         @{
+                             if (Session["User"] == null)
+                             {
+                                 Response.Redirect("~/Account/Login");
+
+                             } else {
+                                 Member member = (Member)Session["User"];
+                                 var userType = member.usertype;
+                                 if (userType == 1)
+                                 {
                         <a href="/Home/HomeForHelper">
                             <i class="material-icons">subtitles</i>
                             <span>Show Posts</span>
                         </a>
+                                 } }
+                             }
                     </li>
 
                     <li>
-                       @{
-                           Member member = (Member)Session["User"];
-                           var userType = member.usertype;
-                           if (userType == 1)
-                           {
+                        @{
+                            if (Session["User"] == null)
+                            {
+                                Response.Redirect("~/Account/Login");
 
-                        <a href="/Home/MyList">
-                            <i class="material-icons">assignment</i>
-                            <span>My List</span>
-                        </a>
-                           }}
+                            }
+                            else
+                            {
+                                Member member = (Member)Session["User"];
+                                var userType = member.usertype;
+
+                                //Member member = (Member)Session["User"];
+                                //var userType = member.usertype;
+                                if (userType == 1)
+                                {
+
+                                <a href="/Home/MyList">
+                                    <i class="material-icons">assignment</i>
+                                    <span>My List</span>
+                                </a>
+                                    } } }
                     </li>
 
                     <li>
@@ -130,9 +152,7 @@
                     </li>
                 </ul>
             </div>
-
         </aside>
-
     </section>
     <section class="content">
         <div class="container-fluid">
@@ -140,9 +160,7 @@
                 @RenderBody()
             </div>
         </div>
-
     </section>
-
     <script src="~/Template/plugins/jquery/jquery.min.js"></script>
     <script src="~/Template/plugins/bootstrap/js/bootstrap.js"></script>
     <script src="~/Template/js/admin.js"></script>
@@ -158,7 +176,19 @@
     <script src="~/Template/js/pages/tables/jquery-datatable.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap3-dialog/1.35.3/js/bootstrap-dialog.js"></script>
     <script src="~/Template/js/demo.js"></script>
+    <script>
+        //session end
+        var sessionTimeoutWarning = @Session.Timeout -1;
+        var sTimeout = parseInt(sessionTimeoutWarning) * 60 * 1000;
+        setTimeout('SessionEnd()', sTimeout);
 
+        function SessionEnd() {
+            window.location.hostname = "";
+           @* $(window.Location).attr("href", "@Url.Content("~/Login/index/")");
+ *@
+            window.location = "/Account/Login";
+        }
+    </script>
     @RenderSection("Footer", required: false);
 </body>
 </html>
