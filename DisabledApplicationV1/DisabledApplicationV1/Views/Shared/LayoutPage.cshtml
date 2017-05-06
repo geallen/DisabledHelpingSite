@@ -79,9 +79,9 @@
     <section>
         <aside id="leftsidebar" class="sidebar">
             <div class="user-info">
-                <div class="image">
+                @*<div class="image">
                     <img src="~/Template/images/user.png" />
-                </div>
+                </div>*@
                 <div class="info-container">
                     @{
                         if (Session["User"] != null)
@@ -100,7 +100,7 @@
             </div>
             <div class="menu">
                 <ul class="list">
-                    <li class="header">Menu</li>
+                    <li class="header"><center>MENU</center></li>
                     <li>
                          @{
                              if (Session["User"] == null)

@@ -65,6 +65,10 @@
     }
     if (username == "" || name == "" || surname == "" || password == "") {
       dialog.open();
+      $("#name").val('');
+      $("#surname").val('');
+      $("#username").val('');
+      $("#password").val('');
     }else{
     $.ajax({
       type: "POST",
@@ -82,8 +86,16 @@
         //console.log(msg);
         if (msg == "Error") {
           dialog3.open();
+          $("#name").val('');
+          $("#surname").val('');
+          $("#username").val('');
+          $("#password").val('');
         } else if (msg == "You did not succesfully registered to system") {
           dialog3.open();
+          $("#name").val('');
+          $("#surname").val('');
+          $("#username").val('');
+          $("#password").val('');
         }
         else {
           dialog1.open();
@@ -91,6 +103,10 @@
       },
       error: function (msg) {
         dialog2.open();
+        $("#name").val('');
+        $("#surname").val('');
+        $("#username").val('');
+        $("#password").val('');
       }
     });
       }
